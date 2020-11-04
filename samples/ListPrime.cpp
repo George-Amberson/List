@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-	/*List<int>A;
+	List<int>A;
 	for (int i = 0; i < 10; i++)
 	{
 		A.push_back(i);
@@ -17,20 +17,27 @@ int main()
 	}
 	A.pop_front();
 	A.pop_back();
-	cout << A.pop_back()<<" "<<A.pop_front();*/
+	//cout << A.pop_back()<<" "<<A.pop_front();
 	List<int>q;
 	int m = 2;
 	q.push_back(0);
 	q.push_back(1);
-	cout << q.pop_back();
-	List<int> v(5);
+	//cout << q.pop_back();
+	List<int>v;
 	
-	v.push_front(0);
-	v.push_front(1);
-	v.push_front(2);
-	v.pop_front();
-	v.pop_front();
-	cout << v.pop_front();
+	v.push_back(1);
+	v.push_back(34);
+	v.push_back(9);
+	v.push_back(3);
+	v.push_back(27);
+	v.push_back(90);
+	v.push_back(81);
+	cout << v;
+	v.reverse();
+	cout << v;
+	v.Sort();
+	cout << v;
+	//cout << q;
 	return 0;
 }
 	

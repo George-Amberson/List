@@ -7,19 +7,11 @@ TEST(List, can_create_List)
 	ASSERT_NO_THROW(List<int>A);
 }
 
-TEST(List, can_create_List_with_positive_length)
-{
-	ASSERT_NO_THROW(List<int> v(3));
-}
 
-TEST(List, throws_when_create_List_with_negative_size)
-{
-	ASSERT_ANY_THROW(List<int> v(-5));
-}
 
 TEST(List, Can_copy_List)
 {
-	List<int>q(4);
+	List<int>q;
 	ASSERT_NO_THROW(List<int>w(q));
 }
 TEST(List, IsEmpty)
@@ -39,7 +31,7 @@ TEST(List, push_back)
 
 TEST(List, pop_front)
 {
-	List<int> v(5);
+	List<int> v;
 	int m = 3;
 	v.push_front(0);
 	v.push_front(1);
@@ -49,6 +41,8 @@ TEST(List, pop_front)
 	int t = v.pop_front();
 	EXPECT_EQ(t, 0);
 }
+
+
 
 
 

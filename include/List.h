@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
-
+#include <cmath>
+#include "Stack.h"
 using namespace std;
 template<class A2>
 class Node
@@ -11,27 +12,34 @@ public:
 	Node* next;
 };
 
+
+
+
+
 template<class A1>
 class List
 {
 public:
 	List() :head(nullptr), size(0) {}
-	List(int _size)
-	{
-		if (_size < 0) throw logic_error("negative size");
-		(*this).addNodes(_size);
-	}
+	
 	List(List& lhs)
 	{
-		if (lhs.head == nullptr) throw logic_error("empty stack");
-		(*this).addNodes(lhs.size);
-		Node<A1>*tmpt = head;
-		Node<A1>* tmpl = lhs.head;
-		while (tmpl != nullptr)
+		if (lhs.head == nullptr) throw logic_error("empty list");
+		size = lhs.size;
+		head = new Node<A1>;
+		Node<A1>* tmp = head;
+		Node<A1>* ptr = lhs.head;
+		for (int i = 1; i < size; i++)
 		{
-			(*tmpt).value = tmpl->value;
-			tmpt = (*tmpt).next;
-			tmpl = tmpl->next;
+			tmp->next = new Node<A1>;
+			tmp = tmp->next;
+		}
+		tmp = head;
+		for (int i = 0; i < size; i++)
+		{
+			tmp->value = ptr->value;
+			ptr = ptr->next;
+			tmp = tmp->next;
 		}
 	}
 	~List()
@@ -73,6 +81,7 @@ public:
 			head->value = lhs;
 			head->next = nullptr;
 		}
+		size++;
 	}
 	void push_front(const A1& lhs)
 	{
@@ -80,6 +89,7 @@ public:
 		tmp->value = lhs;
 		tmp->next = head;
 		head = tmp;
+		size++;
 	}
 	A1& pop_front()
 	{
@@ -87,6 +97,7 @@ public:
 		Node<A1>* tmp = head->next;
 		A1 tm = head->value;
 		delete head;
+		size--;
 		head = tmp;
 		return tm;
 	}
@@ -103,8 +114,82 @@ public:
 		delete head->next;
 		head->next = nullptr;
 		head = tmp;
+		size--;
 		return tmp1;
 
+	}
+	List<A1> GCD(const A1& lhs)
+	{
+		int Size = this->GetSize();
+		List<A1>tmp1;
+		Node<A1>*tmp = head;
+
+		for(int i=0;i<Size;i++)
+		{
+			if (lhs % (head->value) == 0) {
+				tmp1.push_front(head->value);
+			}
+			head = head->next;
+		}
+		head = tmp;
+		return tmp1;
+	}
+	A1& pop(Node<A1>* prev)
+	{
+		if (prev->next == nullptr) throw logic_error("last_element");
+		Node<A1>* del = prev->next;
+		Node<A1>* last = del->next;
+		A1 ret = del->value;
+		delete del;
+		prev->next = last;
+		size--;
+		return ret;
+
+	}
+	void reverse()
+	{
+		if ((*this).IsEmpty()) throw logic_error("list is empty");
+		int Size = this->GetSize();
+		Node<A1>*ls = head;
+		for(int i=1;i<Size;i++)
+		{
+			A1 tmp = (*this).pop(ls);
+			(*this).push_front(tmp);
+		}
+		
+	}
+	void Sort()
+	{
+		if ((*this).IsEmpty()) throw logic_error("list is empty");
+		List<A1>res;
+		Node<A1> min;
+		Node<A1>* newhead = new Node<A1>;
+		newhead->next = head;
+		head = newhead;
+		min.value = head->next->value;
+		min.next = head;
+		Node<A1>* t = head;
+		while (!(head->next==nullptr))
+		{
+			Node<A1>* t = head;
+			min.value = head->next->value;
+			min.next = head;
+			for (int i = 0; i < size; i++) {
+				
+				if (t->next->value < min.value)
+				{
+					min.value = t->next->value;
+					min.next = t;
+				}
+				t = t->next;
+			}
+			(*this).pop(min.next);
+			res.push_front(min.value);
+		}
+		delete (*this).head;
+		(*this).head = res.head;
+		res.head = nullptr;
+		size = res.size;
 	}
 	template<class A1>
 	friend ostream& operator<<(ostream& out, List<A1>& lhs)
@@ -112,7 +197,7 @@ public:
 		Node<A1>*tmp = lhs.head;
 		while (tmp->next != nullptr)
 		{
-			out << tmp->value << " ";
+			out << tmp->value << "->";
 			tmp = tmp->next;
 		}
 		cout << tmp->value << "\n";
@@ -120,19 +205,6 @@ public:
 	}
 private:
 
-	void addNodes(int _size)
-	{
-		size = _size;
-		head = new Node<A1>;
-		(*head).next = nullptr;
-		Node<A1>* tmp = head;
-		for (int i = 1; i < size - 1; i++)
-		{
-			(*tmp).next = new Node<A1>;
-			tmp = (*tmp).next;
-		}
-		(*tmp).next = nullptr;
-	}
 	Node<A1>* head;
 	int size;
 };
