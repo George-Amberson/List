@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 #include <cmath>
-#include "Stack.h"
+
 using namespace std;
 template<class A2>
 class Node

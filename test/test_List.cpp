@@ -12,6 +12,7 @@ TEST(List, can_create_List)
 TEST(List, Can_copy_List)
 {
 	List<int>q;
+	q.push_back(1);
 	ASSERT_NO_THROW(List<int>w(q));
 }
 TEST(List, IsEmpty)
@@ -40,6 +41,14 @@ TEST(List, pop_front)
 	v.pop_front();
 	int t = v.pop_front();
 	EXPECT_EQ(t, 0);
+}
+TEST(List, push_front)
+{
+	List<int> v;
+	int m = 3;
+	v.push_front(4);
+	int t = v.pop_front();
+	EXPECT_EQ(t, 4);
 }
 
 
